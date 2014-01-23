@@ -272,8 +272,8 @@ class CBitcoinAddress : public CBase58Data
 public:
     enum
     {
-        PUBKEY_ADDRESS = 48, // Litecoin addresses start with L
-        SCRIPT_ADDRESS = 5,
+        PUBKEY_ADDRESS = 28, // Cancercoin Pubkey-hash addresses start with C
+        SCRIPT_ADDRESS = 87, // Cancercoin P2SH addresses start with c
         PUBKEY_ADDRESS_TEST = 111,
         SCRIPT_ADDRESS_TEST = 196,
     };

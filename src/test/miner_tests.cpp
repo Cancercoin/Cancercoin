@@ -57,6 +57,9 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
     // Simple block creation, nothing special yet:
     BOOST_CHECK(pblocktemplate = CreateNewBlockWithKey(reservekey));
 
+	// To avoid regenerating test blocks, disable POW
+	disablePOW = true;
+	
     // We can't make transactions until we have inputs
     // Therefore, load 100 blocks :)
     std::vector<CTransaction*>txFirst;
@@ -68,7 +71,6 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
         pblock->vtx[0].vin[0].scriptSig = CScript();
         pblock->vtx[0].vin[0].scriptSig.push_back(blockinfo[i].extranonce);
         pblock->vtx[0].vin[0].scriptSig.push_back(pindexBest->nHeight);
-        pblock->vtx[0].vout[0].scriptPubKey = CScript();
         if (txFirst.size() < 2)
             txFirst.push_back(new CTransaction(pblock->vtx[0]));
         pblock->hashMerkleRoot = pblock->BuildMerkleTree();
@@ -199,6 +201,44 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
     BOOST_CHECK(pblocktemplate = CreateNewBlockWithKey(reservekey));
     delete pblocktemplate;
     pindexBest->nHeight = nHeight;
+}
+
+BOOST_AUTO_TEST_CASE(charity_test){
+	// Test ensuring blocks that give wrong amount to charity fail
+	CReserveKey reservekey(pwalletMain);
+    CBlockTemplate *pblocktemplate;
+	CValidationState state;
+    BOOST_CHECK(pblocktemplate = CreateNewBlockWithKey(reservekey));
+	
+	// To avoid regenerating test blocks, disable POW
+	disablePOW = true;
+	
+	// Give to different address
+	
+	CBlock * block = &pblocktemplate->block;
+	block->vtx[0].vout[0].scriptPubKey = block->vtx[0].vout[1].scriptPubKey;
+	block->hashMerkleRoot = block->BuildMerkleTree();
+	BOOST_CHECK(!ProcessBlock(state, NULL, block));
+	BOOST_CHECK(!state.IsValid());
+	
+	// Give wrong amount
+	
+	block->vtx[0].vout[0].scriptPubKey = CHARITY_SCRIPT;
+	block->vtx[0].vout[0].nValue--;
+	block->vtx[0].vout[1].nValue++;
+	block->hashMerkleRoot = block->BuildMerkleTree();
+	state = CValidationState(); // Reset
+	BOOST_CHECK(!ProcessBlock(state, NULL, block));
+	BOOST_CHECK(!state.IsValid());
+	
+	// OK giving more
+	
+	block->vtx[0].vout[0].nValue += 2;
+	block->vtx[0].vout[1].nValue -= 2;
+	block->hashMerkleRoot = block->BuildMerkleTree();
+	state = CValidationState(); // Reset
+	BOOST_CHECK(ProcessBlock(state, NULL, block));
+	BOOST_CHECK(state.IsValid());
 }
 
 BOOST_AUTO_TEST_CASE(sha256transform_equality)

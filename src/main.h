@@ -50,11 +50,11 @@ static const unsigned int UNDOFILE_CHUNK_SIZE = 0x100000; // 1 MiB
 /** Fake height value used in CCoins to signify they are only in the memory pool (since 0.8) */
 static const unsigned int MEMPOOL_HEIGHT = 0x7FFFFFFF;
 /** Dust Soft Limit, allowed with additional fee per output */
-static const int64 DUST_SOFT_LIMIT = 100000; // 0.001 LTC
+static const int64 DUST_SOFT_LIMIT = 100000; // 0.001 CCC
 /** Dust Hard Limit, ignored as wallet inputs (mininput default) */
-static const int64 DUST_HARD_LIMIT = 1000;   // 0.00001 LTC mininput
-/** No amount larger than this (in satoshi) is valid */
-static const int64 MAX_MONEY = 84000000 * COIN;
+static const int64 DUST_HARD_LIMIT = 1000;   // 0.00001 CCC mininput
+/** No amount larger than this (in units) is valid */
+static const int64 MAX_MONEY = 100000000 * COIN;
 inline bool MoneyRange(int64 nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
 /** Coinbase transaction outputs can only be spent after this number of new blocks (network rule) */
 static const int COINBASE_MATURITY = 100;
@@ -62,6 +62,12 @@ static const int COINBASE_MATURITY = 100;
 static const unsigned int LOCKTIME_THRESHOLD = 500000000; // Tue Nov  5 00:53:20 1985 UTC
 /** Maximum number of script-checking threads allowed */
 static const int MAX_SCRIPTCHECK_THREADS = 16;
+// Timestamp of the genesis block
+static const unsigned int GENESIS_TIME = 1390487423;
+// Target bits for genesis block
+static const unsigned int GENESIS_BITS = 0x1e0ffff0;
+// The charity address in hex
+#define CHARITY_ADDRESS "1864597a1e6f7e83555b4ec5913d455f4a5002a5"
 #ifdef USE_UPNP
 static const int fHaveUPnP = true;
 #else
@@ -70,7 +76,7 @@ static const int fHaveUPnP = false;
 
 
 extern CScript COINBASE_FLAGS;
-
+extern CScript CHARITY_SCRIPT;
 
 
 
@@ -80,6 +86,7 @@ extern CCriticalSection cs_main;
 extern std::map<uint256, CBlockIndex*> mapBlockIndex;
 extern std::set<CBlockIndex*, CBlockIndexWorkComparator> setBlockIndexValid;
 extern uint256 hashGenesisBlock;
+extern bool disablePOW;
 extern CBlockIndex* pindexGenesisBlock;
 extern int nBestHeight;
 extern uint256 nBestChainWork;
@@ -1480,6 +1487,10 @@ public:
         catch (std::exception &e) {
             return error("%s() : deserialize or I/O error", __PRETTY_FUNCTION__);
         }
+		
+		// If genesis do not check proof of work. Genesis has null previous block hash
+		if (hashPrevBlock == 0)
+			return true;
 
         // Check the header
         if (!CheckProofOfWork(GetPoWHash(), nBits))
