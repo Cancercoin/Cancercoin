@@ -3801,8 +3801,13 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
 }
 
 // requires LOCK(cs_vRecvMsg)
-bool ProcessMessages(CNode* pfrom)
-{
+bool ProcessMessages(CNode* pfrom){
+	
+	// For seed nodes disconnect peers which have been connected for 5 minutes or more, to give other nodes a chance. Also ban for two hours
+	
+	if (pfrom->nTimeConnected < GetTime() - 60*5)
+		pfrom->Misbehaving(100);
+	
     //if (fDebug)
     //    printf("ProcessMessages(%zu messages)\n", pfrom->vRecvMsg.size());
 
