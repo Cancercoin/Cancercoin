@@ -3803,9 +3803,9 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
 // requires LOCK(cs_vRecvMsg)
 bool ProcessMessages(CNode* pfrom){
 	
-	// For seed nodes disconnect peers which have been connected for 5 minutes or more, to give other nodes a chance. Also ban for two hours
+	// For seed nodes disconnect peers which have been connected for 5 minutes or more, to give other nodes a chance. Also ban for two hours. Only do this when 80% of the maximum peers is reached.
 	
-	if (pfrom->nTimeConnected < GetTime() - 60*5)
+	if (pfrom->nTimeConnected < GetTime() - 60*5 && (int)vNodes.size() > nMaxConnections*8/10)
 		pfrom->Misbehaving(100);
 	
     //if (fDebug)
