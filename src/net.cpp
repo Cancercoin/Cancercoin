@@ -1192,12 +1192,12 @@ void MapPort(bool)
 // The first name is used as information source for addrman.
 // The second name should resolve to a list of seed addresses.
 static const char *strMainNetDNSSeed[][2] = {
-   
+// This is a seed node so don't connect to any seeds.
     {NULL, NULL}
 };
 
 static const char *strTestNetDNSSeed[][2] = {
-   
+// This is a seed node so don't connect to any seeds.
     {NULL, NULL}
 };
 
@@ -1237,7 +1237,7 @@ void ThreadDNSAddressSeed()
 
 
 unsigned int pnSeed[] = {
-    0x36c2d723
+// This is a seed node so don't connect to any seeds.
 };
 
 void DumpAddresses()
@@ -1269,8 +1269,8 @@ void static ProcessOneShot()
     }
 }
 
-void ThreadOpenConnections()
-{
+void ThreadOpenConnections(){
+	/* Disable outgoing connections for seed nodes.
     // Connect to specific addresses
     if (mapArgs.count("-connect") && mapMultiArgs["-connect"].size() > 0)
     {
@@ -1376,7 +1376,7 @@ void ThreadOpenConnections()
 
         if (addrConnect.IsValid())
             OpenNetworkConnection(addrConnect, &grant);
-    }
+    }*/
 }
 
 void ThreadOpenAddedConnections()
