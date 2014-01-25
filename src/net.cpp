@@ -1237,7 +1237,7 @@ void ThreadDNSAddressSeed()
 
 
 unsigned int pnSeed[] = {
-    0x36c2d723
+    0x23d7c236, 0x9d185436,0xd391fb36
 };
 
 void DumpAddresses()
@@ -1302,7 +1302,7 @@ void ThreadOpenConnections()
         boost::this_thread::interruption_point();
 
         // Add seed nodes if IRC isn't working
-        if (addrman.size()==0 && (GetTime() - nStart > 60) && !fTestNet)
+        if (addrman.size()==0 && (GetTime() - nStart > 60)) // Using seed nodes for testnet
         {
             std::vector<CAddress> vAdd;
             for (unsigned int i = 0; i < ARRAYLEN(pnSeed); i++)
