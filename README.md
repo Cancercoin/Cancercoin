@@ -4,7 +4,8 @@ Cancercoin integration/staging tree
 http://www.cancercoin.org
 
 Copyright (c) 2009-2013 Bitcoin Developers
-Copyright (c) 2011-2013 Cancercoin Developers
+Copyright (c) 2011-2013 Litecoin Developers
+Copyright (c) 2014 Chistiano Santos
 
 What is Cancercoin?
 ----------------
