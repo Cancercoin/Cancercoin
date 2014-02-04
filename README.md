@@ -1,7 +1,7 @@
 CancerCureCoin integration/staging tree
 ================================
 
-http://www.cancercurecoin.org
+http://www.cancercoin.org
 
 Copyright (c) 2009-2013 Bitcoin Developers
 Copyright (c) 2011-2013 Litecoin Developers
@@ -18,7 +18,7 @@ CancerCureCoin is derived from litecoin and has:
  - 6 blocks to retarget difficulty
 
 For more information, as well as an immediately useable, binary version of
-the CancerCureCoin client sofware, see http://www.cancercurecoin.org.
+the CancerCureCoin client sofware, see http://www.cancercoin.org.
 
 License
 -------

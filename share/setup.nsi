@@ -7,7 +7,7 @@ SetCompressor /SOLID lzma
 !define REGKEY "SOFTWARE\$(^Name)"
 !define VERSION 0.8.6.2
 !define COMPANY "CancerCureCoin project"
-!define URL http://www.cancercurecoin.org/
+!define URL http://www.cancercoin.org/
 
 # MUI Symbol Definitions
 !define MUI_ICON "../share/pixmaps/bitcoin.ico"
