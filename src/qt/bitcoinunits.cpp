@@ -45,9 +45,9 @@ QString BitcoinUnits::description(int unit)
 {
     switch(unit)
     {
-    case BTC: return QString("Cancercoins");
-    case mBTC: return QString("Milli-Cancercoins (1 / 1,000)");
-    case uBTC: return QString("Micro-Cancercoins (1 / 1,000,000)");
+    case BTC: return QString("CancerCureCoins");
+    case mBTC: return QString("Milli-CancerCureCoins (1 / 1,000)");
+    case uBTC: return QString("Micro-CancerCureCoins (1 / 1,000,000)");
     default: return QString("???");
     }
 }

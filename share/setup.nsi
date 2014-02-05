@@ -1,4 +1,4 @@
-Name Cancercoin
+Name CancerCureCoin
 
 RequestExecutionLevel highest
 SetCompressor /SOLID lzma
@@ -6,7 +6,7 @@ SetCompressor /SOLID lzma
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
 !define VERSION 0.8.6.2
-!define COMPANY "Cancercoin project"
+!define COMPANY "CancerCureCoin project"
 !define URL http://www.cancercoin.org/
 
 # MUI Symbol Definitions
@@ -19,8 +19,8 @@ SetCompressor /SOLID lzma
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT HKLM
 !define MUI_STARTMENUPAGE_REGISTRY_KEY ${REGKEY}
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME StartMenuGroup
-!define MUI_STARTMENUPAGE_DEFAULTFOLDER Cancercoin
-!define MUI_FINISHPAGE_RUN $INSTDIR\cancercoin-qt.exe
+!define MUI_STARTMENUPAGE_DEFAULTFOLDER CancerCureCoin
+!define MUI_FINISHPAGE_RUN $INSTDIR\cancercurecoin-qt.exe
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "../share/pixmaps/nsis-wizard.bmp"
 !define MUI_UNFINISHPAGE_NOAUTOCLOSE
@@ -45,14 +45,14 @@ Var StartMenuGroup
 !insertmacro MUI_LANGUAGE English
 
 # Installer attributes
-OutFile cancercoin-0.8.6.2-win32-setup.exe
-InstallDir $PROGRAMFILES\Cancercoin
+OutFile cancercurecoin-0.8.6.2-win32-setup.exe
+InstallDir $PROGRAMFILES\CancerCureCoin
 CRCCheck on
 XPStyle on
 BrandingText " "
 ShowInstDetails show
 VIProductVersion 0.8.6.2
-VIAddVersionKey ProductName Cancercoin
+VIAddVersionKey ProductName CancerCureCoin
 VIAddVersionKey ProductVersion "${VERSION}"
 VIAddVersionKey CompanyName "${COMPANY}"
 VIAddVersionKey CompanyWebsite "${URL}"
@@ -66,18 +66,18 @@ ShowUninstDetails show
 Section -Main SEC0000
     SetOutPath $INSTDIR
     SetOverwrite on
-    File ../release/cancercoin-qt.exe
+    File ../release/cancercurecoin-qt.exe
     File /oname=COPYING.txt ../COPYING
     File /oname=readme.txt ../doc/README_windows.txt
     SetOutPath $INSTDIR\daemon
-    File ../src/cancercoind.exe
+    File ../src/cancercurecoind.exe
     SetOutPath $INSTDIR\src
     File /r /x *.exe /x *.o ../src\*.*
     SetOutPath $INSTDIR
     WriteRegStr HKCU "${REGKEY}\Components" Main 1
 
     # Remove old wxwidgets-based-bitcoin executable and locales:
-    Delete /REBOOTOK $INSTDIR\cancercoin.exe
+    Delete /REBOOTOK $INSTDIR\cancercurecoin.exe
     RMDir /r /REBOOTOK $INSTDIR\locale
 SectionEnd
 
@@ -87,8 +87,8 @@ Section -post SEC0001
     WriteUninstaller $INSTDIR\uninstall.exe
     !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
     CreateDirectory $SMPROGRAMS\$StartMenuGroup
-    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\Cancercoin.lnk" $INSTDIR\cancercoin-qt.exe
-    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\Uninstall Cancercoin.lnk" $INSTDIR\uninstall.exe
+    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\CancerCureCoin.lnk" $INSTDIR\cancercurecoin-qt.exe
+    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\Uninstall CancerCureCoin.lnk" $INSTDIR\uninstall.exe
     !insertmacro MUI_STARTMENU_WRITE_END
     WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayName "$(^Name)"
     WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayVersion "${VERSION}"
@@ -98,10 +98,10 @@ Section -post SEC0001
     WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" UninstallString $INSTDIR\uninstall.exe
     WriteRegDWORD HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" NoModify 1
     WriteRegDWORD HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" NoRepair 1
-    WriteRegStr HKCR "cancercoin" "URL Protocol" ""
-    WriteRegStr HKCR "cancercoin" "" "URL:Cancercoin"
-    WriteRegStr HKCR "cancercoin\DefaultIcon" "" $INSTDIR\cancercoin-qt.exe
-    WriteRegStr HKCR "cancercoin\shell\open\command" "" '"$INSTDIR\cancercoin-qt.exe" "%1"'
+    WriteRegStr HKCR "cancercurecoin" "URL Protocol" ""
+    WriteRegStr HKCR "cancercurecoin" "" "URL:CancerCureCoin"
+    WriteRegStr HKCR "cancercurecoin\DefaultIcon" "" $INSTDIR\cancercurecoin-qt.exe
+    WriteRegStr HKCR "cancercurecoin\shell\open\command" "" '"$INSTDIR\cancercurecoin-qt.exe" "%1"'
 SectionEnd
 
 # Macro for selecting uninstaller sections
@@ -119,7 +119,7 @@ done${UNSECTION_ID}:
 
 # Uninstaller sections
 Section /o -un.Main UNSEC0000
-    Delete /REBOOTOK $INSTDIR\cancercoin-qt.exe
+    Delete /REBOOTOK $INSTDIR\cancercurecoin-qt.exe
     Delete /REBOOTOK $INSTDIR\COPYING.txt
     Delete /REBOOTOK $INSTDIR\readme.txt
     RMDir /r /REBOOTOK $INSTDIR\daemon
@@ -129,9 +129,9 @@ SectionEnd
 
 Section -un.post UNSEC0001
     DeleteRegKey HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)"
-    Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\Uninstall Cancercoin.lnk"
-    Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\Cancercoin.lnk"
-    Delete /REBOOTOK "$SMSTARTUP\Cancercoin.lnk"
+    Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\Uninstall CancerCureCoin.lnk"
+    Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\CancerCureCoin.lnk"
+    Delete /REBOOTOK "$SMSTARTUP\CancerCureCoin.lnk"
     Delete /REBOOTOK $INSTDIR\uninstall.exe
     Delete /REBOOTOK $INSTDIR\debug.log
     Delete /REBOOTOK $INSTDIR\db.log
@@ -139,7 +139,7 @@ Section -un.post UNSEC0001
     DeleteRegValue HKCU "${REGKEY}" Path
     DeleteRegKey /IfEmpty HKCU "${REGKEY}\Components"
     DeleteRegKey /IfEmpty HKCU "${REGKEY}"
-    DeleteRegKey HKCR "cancercoin"
+    DeleteRegKey HKCR "cancercurecoin"
     RmDir /REBOOTOK $SMPROGRAMS\$StartMenuGroup
     RmDir /REBOOTOK $INSTDIR
     Push $R0

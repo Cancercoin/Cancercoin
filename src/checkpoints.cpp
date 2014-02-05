@@ -77,7 +77,7 @@ namespace Checkpoints
 
         int64 nNow = time(NULL);
 		
-		return 1.0-(nNow - pindex->nTime)/(nNow-GENESIS_TIME); // No checkpoints so go by time since genesis alone.
+		return 1.0-(float)(nNow - pindex->nTime)/(float)(nNow-GENESIS_TIME); // No checkpoints so go by time since genesis alone.
 
         /*double fWorkBefore = 0.0; // Amount of work done before pindex
         double fWorkAfter = 0.0;  // Amount of work left after pindex (estimated)
