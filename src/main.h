@@ -63,7 +63,7 @@ static const unsigned int LOCKTIME_THRESHOLD = 500000000; // Tue Nov  5 00:53:20
 /** Maximum number of script-checking threads allowed */
 static const int MAX_SCRIPTCHECK_THREADS = 16;
 // Timestamp of the genesis block
-static const unsigned int GENESIS_TIME = 1391551200;
+static const unsigned int GENESIS_TIME = 1391724000;
 // Target bits for genesis block
 static const unsigned int GENESIS_BITS = 0x1e0ffff0;
 // The charity address in hex

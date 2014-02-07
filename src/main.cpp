@@ -33,7 +33,7 @@ unsigned int nTransactionsUpdated = 0;
 bool disablePOW = false;
 
 map<uint256, CBlockIndex*> mapBlockIndex;
-uint256 hashGenesisBlock("0xe660ce6e843c391514583173da92fdb3b7bfecef980ffc73999b612d2f8f1eb9");
+uint256 hashGenesisBlock("0x5270190d7a1b54825cb35433f8b42c16bfb251a1004dcc317513e8734132ca1d");
 static CBigNum bnProofOfWorkLimit(~uint256(0) >> 20); // Litecoin: starting difficulty is 1 / 2^12
 CBlockIndex* pindexGenesisBlock = NULL;
 int nBestHeight = -1;
@@ -1166,9 +1166,9 @@ unsigned int static KimotoGravityWell(const CBlockIndex* pindexLast, const CBloc
 }
 
 unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock){
-	unsigned int		TimeDaySeconds				= 60 * 60 * 24;
-	int64				PastSecondsMin				= TimeDaySeconds * 0.25;
-	int64				PastSecondsMax				= TimeDaySeconds * 7;
+	// Reducing PastSecondsMin and PastSecondsMax means the difficulty is more sensitive to recent blocks.
+	int64				PastSecondsMin				= 60*60; // Hour
+	int64				PastSecondsMax				= 60*60*8; // 8 hours
 	uint64				PastBlocksMin				= PastSecondsMin / nTargetSpacing;
 	uint64				PastBlocksMax				= PastSecondsMax / nTargetSpacing;
 	
