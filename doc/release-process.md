@@ -96,7 +96,7 @@ repackage gitian builds for release as stand-alone zip/tar/installer exe
 	python2.7 share/qt/clean_mac_info_plist.py
 	python2.7 contrib/macdeploy/macdeployqtplus Bitcoin-Qt.app -add-qt-tr $T -dmg -fancy contrib/macdeploy/fancy.plist
 
- Build output expected: Bitcoin-Qt.dmg
+ Build output expected: CancerCureCoin-Qt.dmg
 
 ###Next steps:
 
