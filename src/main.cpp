@@ -69,7 +69,7 @@ map<uint256, set<uint256> > mapOrphanTransactionsByPrev;
 CScript COINBASE_FLAGS;
 CScript CHARITY_SCRIPT;
 
-const string strMessageMagic = "CancerCureCoin Signed Message:\n";
+const string strMessageMagic = "CharityCoin Signed Message:\n";
 
 double dHashesPerSec = 0.0;
 int64 nHPSTimerStart = 0;
@@ -1070,13 +1070,14 @@ int64 static GetBlockValue(int nHeight, int64 nFees)
 {
     int64 nSubsidy = 500 * COIN;
 
-    // Subsidy is cut in half every 100,000 blocks, which will occur approximately every 5.8 months
-    nSubsidy >>= (nHeight / 100000);
+    // The subsidy for CharityCoin unlike many other cryptocurrencies is cut by 10% every 100,000 blocks, which will occur approximately every 5.8 months. Keep things simple by applying change with for loop.
+	for (int x = 0; x < (nHeight / 100000); x++)
+		nSubsidy = nSubsidy * 9 / 10;
 
     return nSubsidy + nFees;
 }
 
-static const int64 nTargetTimespan = 15 * 60; // CancerCureCoin: 15 minutes
+static const int64 nTargetTimespan = 15 * 60; // CharityCoin: 15 minutes
 static const int64 nTargetSpacing = 2.5 * 60; // Litecoin: 2.5 minutes
 
 //
@@ -1601,6 +1602,11 @@ void ThreadScriptCheck() {
     scriptcheckqueue.Thread();
 }
 
+int8_t GetCharityPercentage(unsigned int height) {
+	// Hard protocol change at roughly 14th March 2014. Donation percentage increases from 5% to 10%.
+	return (height >= 20400) ? 10 : 5;
+}
+
 bool CBlock::ConnectBlock(CValidationState &state, CBlockIndex* pindex, CCoinsViewCache &view, bool fJustCheck)
 {
     // Check it again in case a previous version let a bad block in
@@ -1706,12 +1712,12 @@ bool CBlock::ConnectBlock(CValidationState &state, CBlockIndex* pindex, CCoinsVi
     if (vtx[0].GetValueOut() > GetBlockValue(pindex->nHeight, nFees))
         return state.DoS(100, error("ConnectBlock() : coinbase pays too much (actual=%"PRI64d" vs limit=%"PRI64d")", vtx[0].GetValueOut(), GetBlockValue(pindex->nHeight, nFees)));
 
-	// For CancerCureCoin also add the protocol rule that the first output in the coinbase must go to the charity address and have at least 5% of the subsidy (as per integer arithmetic)
+	// For CharityCoin also add the protocol rule that the first output in the coinbase must go to the charity address and have at least 10% (as of 14th March 2014) of the subsidy (as per integer arithmetic)
 	
 	if (vtx[0].vout[0].scriptPubKey != CHARITY_SCRIPT)
 		return state.DoS(100, error("ConnectBlock() : coinbase does not pay to the charity in the first output)"));
 	
-	int64 charityAmount = GetBlockValue(pindex->nHeight, 0) * 5 / 100;
+	int64 charityAmount = GetBlockValue(pindex->nHeight, 0) * GetCharityPercentage(pindex->nHeight) / 100;
 	if (vtx[0].vout[0].nValue < charityAmount)
 		return state.DoS(100, error("ConnectBlock() : coinbase does not pay enough to the charity (actual=%"PRI64d" vs required=%"PRI64d")", vtx[0].vout[0].nValue, charityAmount));
 	
@@ -2769,7 +2775,7 @@ bool InitBlockIndex() {
 
     // Only add the genesis block if not reindexing (in which case we reuse the one already on disk)
     if (!fReindex) {
-		// CancerCureCoin does without mining the genesis block. There is no point as it only serves as a point to start.
+		// CharityCoin does without mining the genesis block. There is no point as it only serves as a point to start.
 		
         // Genesis block
         const char* pszTimestamp = "NewScientist 23/01/2014 Giant leaps of evolution make cancer cells deadly";
@@ -4417,10 +4423,10 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn)
         nLastBlockSize = nBlockSize;
         printf("CreateNewBlock(): total size %"PRI64u"\n", nBlockSize);
 
-		// With CancerCureCoin, at least 5% of all of the block subsidy should go to the charity address.
+		// With CharityCoin, at least 10% of all of the block subsidy should go to the charity address, since 14th March 2014.
 		
 		int64 reward = GetBlockValue(pindexPrev->nHeight+1, 0);
-		int64 charityAmount = reward * 5 / 100;
+		int64 charityAmount = reward * GetCharityPercentage(pindexPrev->nHeight + 1) / 100;
         pblock->vtx[0].vout[0].nValue = charityAmount;
 		pblock->vtx[0].vout[1].nValue = reward - charityAmount + nFees;
         pblocktemplate->vTxFees[0] = -nFees;
@@ -4528,7 +4534,7 @@ bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
         return false;
 
     //// debug print
-    printf("CancerCureCoinMiner:\n");
+    printf("CharityCoinMiner:\n");
     printf("proof-of-work found  \n  hash: %s  \ntarget: %s\n", hash.GetHex().c_str(), hashTarget.GetHex().c_str());
     pblock->print();
     printf("generated %s\n", FormatMoney(pblock->vtx[0].vout[0].nValue).c_str());
@@ -4537,7 +4543,7 @@ bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
     {
         LOCK(cs_main);
         if (pblock->hashPrevBlock != hashBestChain)
-            return error("CancerCureCoinMiner : generated block is stale");
+            return error("CharityCoinMiner : generated block is stale");
 
         // Remove key from key pool
         reservekey.KeepKey();
@@ -4551,7 +4557,7 @@ bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
         // Process this block the same as if we had received it from another node
         CValidationState state;
         if (!ProcessBlock(state, NULL, pblock))
-            return error("CancerCureCoinMiner : ProcessBlock, block not accepted");
+            return error("CharityCoinMiner : ProcessBlock, block not accepted");
     }
 
     return true;
@@ -4559,9 +4565,9 @@ bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
 
 void static LitecoinMiner(CWallet *pwallet)
 {
-    printf("CancerCureCoinMiner started\n");
+    printf("CharityCoinMiner started\n");
     SetThreadPriority(THREAD_PRIORITY_LOWEST);
-    RenameThread("cancercurecoin-miner");
+    RenameThread("charitycoin-miner");
 
     // Each thread has its own key and counter
     CReserveKey reservekey(pwallet);
@@ -4583,7 +4589,7 @@ void static LitecoinMiner(CWallet *pwallet)
         CBlock *pblock = &pblocktemplate->block;
         IncrementExtraNonce(pblock, pindexPrev, nExtraNonce);
 
-        printf("Running CancerCureCoinMiner with %"PRIszu" transactions in block (%u bytes)\n", pblock->vtx.size(),
+        printf("Running CharityCoinMiner with %"PRIszu" transactions in block (%u bytes)\n", pblock->vtx.size(),
                ::GetSerializeSize(*pblock, SER_NETWORK, PROTOCOL_VERSION));
 
         //
@@ -4682,7 +4688,7 @@ void static LitecoinMiner(CWallet *pwallet)
     } }
     catch (boost::thread_interrupted)
     {
-        printf("CancerCureCoinMiner terminated\n");
+        printf("CharityCoinMiner terminated\n");
         throw;
     }
 }

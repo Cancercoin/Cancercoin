@@ -1,7 +1,7 @@
-diff --git a/cancercurecoin-qt.pro b/cancercurecoin-qt.pro
+diff --git a/charitycoin-qt.pro b/charitycoin-qt.pro
 index d938c07..e1dd4ec 100644
---- a/cancercurecoin-qt.pro
-+++ b/cancercurecoin-qt.pro
+--- a/charitycoin-qt.pro
++++ b/charitycoin-qt.pro
 @@ -353,7 +353,7 @@
  }
  

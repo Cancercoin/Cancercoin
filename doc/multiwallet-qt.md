@@ -12,7 +12,7 @@ some major retrofitting.
 
 Only requiring some minor changes is bitcoin.cpp.
 
-Finally, three new headers and source files will have to be added to cancercurecoin-qt.pro.
+Finally, three new headers and source files will have to be added to charitycoin-qt.pro.
 
 Changes to class BitcoinGUI
 ---------------------------

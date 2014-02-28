@@ -1,9 +1,9 @@
-Building CancerCureCoin
+Building CharityCoin
 
-See doc/readme-qt.rst for instructions on building CancerCureCoin-Qt,
+See doc/readme-qt.rst for instructions on building CharityCoin-Qt,
 the intended-for-end-users, nice-graphical-interface, reference
-implementation of CancerCureCoin.
+implementation of CharityCoin.
 
-See doc/build-*.txt for instructions on building cancercurecoind,
+See doc/build-*.txt for instructions on building charitycoind,
 the intended-for-services, no-graphical-interface, reference
-implementation of CancerCureCoin.
+implementation of CharityCoin.

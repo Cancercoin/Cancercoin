@@ -20,8 +20,8 @@ Build-Depends: debhelper,
  libqrencode-dev
 Standards-Version: 3.9.2
 Homepage: http://www.cancercoin.org/
-Vcs-Git: git://github.com/CancerCureCoin/CancerCureCoin.git
-Vcs-Browser: http://github.com/CancerCureCoin/CancerCureCoin
+Vcs-Git: git://github.com/CharityCoin/CharityCoin.git
+Vcs-Browser: http://github.com/CharityCoin/CharityCoin
 
 Package: bitcoind
 Architecture: any

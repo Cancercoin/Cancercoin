@@ -1,7 +1,7 @@
 src/*.exe
-src/cancercurecoin
-src/cancercurecoind
-src/test_cancercurecoin
+src/charitycoin
+src/charitycoind
+src/test_charitycoin
 .*.swp
 *.*~*
 *.bak
@@ -9,17 +9,17 @@ src/test_cancercurecoin
 *.orig
 *.o
 *.patch
-.cancercurecoin
+.charitycoin
 
 # Compilation and Qt preprocessor part
 *.qm
 Makefile
 cancecoin-qt
-CancerCureCoin-Qt.app
+CharityCoin-Qt.app
 
 # Unit-tests
 Makefile.test
-cancercurecoin-qt_test
+charitycoin-qt_test
 
 # Resources cpp
 qrc_*.cpp
@@ -30,6 +30,6 @@ qrc_*.cpp
 # Mac specific
 .DS_Store
 build
-CancerCureCoin/CancerCureCoin.xcodeproj/project.pbxproj
+CharityCoin/CharityCoin.xcodeproj/project.pbxproj
 
 !src/leveldb-*/Makefile

@@ -20,14 +20,14 @@ BEGIN
     BEGIN
         BLOCK "040904E4" // U.S. English - multilingual (hex)
         BEGIN
-            VALUE "CompanyName",        "CancerCureCoin"
-            VALUE "FileDescription",    "CancerCureCoin-Qt (OSS GUI client for CancerCureCoin)"
+            VALUE "CompanyName",        "CharityCoin"
+            VALUE "FileDescription",    "CharityCoin-Qt (OSS GUI client for CharityCoin)"
             VALUE "FileVersion",        VER_FILEVERSION_STR
-            VALUE "InternalName",       "cancercurecoin-qt"
+            VALUE "InternalName",       "charitycoin-qt"
             VALUE "LegalCopyright",     COPYRIGHT_STR
             VALUE "LegalTrademarks1",   "Distributed under the MIT/X11 software license, see the accompanying file COPYING or http://www.opensource.org/licenses/mit-license.php."
-            VALUE "OriginalFilename",   "cancercurecoin-qt.exe"
-            VALUE "ProductName",        "CancerCureCoin-Qt"
+            VALUE "OriginalFilename",   "charitycoin-qt.exe"
+            VALUE "ProductName",        "CharityCoin-Qt"
             VALUE "ProductVersion",     VER_PRODUCTVERSION_STR
         END
     END
