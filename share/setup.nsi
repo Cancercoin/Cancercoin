@@ -45,13 +45,13 @@ Var StartMenuGroup
 !insertmacro MUI_LANGUAGE English
 
 # Installer attributes
-OutFile charitycoin-0.8.6.2-win32-setup.exe
+OutFile charitycoin-0.8.6.3-win32-setup.exe
 InstallDir $PROGRAMFILES\CharityCoin
 CRCCheck on
 XPStyle on
 BrandingText " "
 ShowInstDetails show
-VIProductVersion 0.8.6.2
+VIProductVersion 0.8.6.3
 VIAddVersionKey ProductName CharityCoin
 VIAddVersionKey ProductVersion "${VERSION}"
 VIAddVersionKey CompanyName "${COMPANY}"
