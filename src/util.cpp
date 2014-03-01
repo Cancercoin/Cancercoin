@@ -1028,7 +1028,7 @@ void PrintExceptionContinue(std::exception* pex, const char* pszThread)
     strMiscWarning = message;
 }
 
-boost::filesystem::path GetDefaultDataDir()
+boost::filesystem::path GetDefaultDataDir(bool old = false)
 {
     namespace fs = boost::filesystem;
     // Windows < Vista: C:\Documents and Settings\Username\Application Data\Bitcoin
@@ -1037,7 +1037,7 @@ boost::filesystem::path GetDefaultDataDir()
     // Unix: ~/.bitcoin
 #ifdef WIN32
     // Windows
-    return GetSpecialFolderPath(CSIDL_APPDATA) / "CharityCoin";
+    return GetSpecialFolderPath(CSIDL_APPDATA) / (old ? "CancerCureCoin" : "CharityCoin");
 #else
     fs::path pathRet;
     char* pszHome = getenv("HOME");
@@ -1049,10 +1049,10 @@ boost::filesystem::path GetDefaultDataDir()
     // Mac
     pathRet /= "Library/Application Support";
     fs::create_directory(pathRet);
-    return pathRet / "CharityCoin";
+    return pathRet / (old ? "CancerCureCoin" : "CharityCoin");
 #else
     // Unix
-    return pathRet / ".charitycoin";
+    return pathRet / (old ? ".cancercurecoin" : ".charitycoin");
 #endif
 #endif
 }
@@ -1081,6 +1081,14 @@ const boost::filesystem::path &GetDataDir(bool fNetSpecific)
         }
     } else {
         path = GetDefaultDataDir();
+		// If it doesn't exist look for old one which we can rename.
+		if (!boost::filesystem::is_directory(path)){
+			fs::path &oldpath = GetDefaultDataDir(true);
+			// Does the old path exist?
+			if (!boost::filesystem::is_directory(oldpath))
+				// Rename old path to new path.
+				boost::filesystem::rename(oldpath, path);
+		}
     }
     if (fNetSpecific && GetBoolArg("-testnet", false))
         path /= "testnet3";

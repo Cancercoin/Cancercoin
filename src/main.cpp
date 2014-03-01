@@ -1603,7 +1603,7 @@ void ThreadScriptCheck() {
 }
 
 int8_t GetCharityPercentage(unsigned int height) {
-	// Hard protocol change at roughly 14th March 2014. Donation percentage increases from 5% to 10%.
+	// Soft protocol change at roughly 14th March 2014. Donation percentage increases from 5% to 10%.
 	return (height >= 20400) ? 10 : 5;
 }
 
