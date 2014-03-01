@@ -1028,7 +1028,7 @@ void PrintExceptionContinue(std::exception* pex, const char* pszThread)
     strMiscWarning = message;
 }
 
-boost::filesystem::path GetDefaultDataDir(bool old = false)
+boost::filesystem::path GetDefaultDataDir(bool old)
 {
     namespace fs = boost::filesystem;
     // Windows < Vista: C:\Documents and Settings\Username\Application Data\Bitcoin
