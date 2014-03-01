@@ -1082,12 +1082,12 @@ const boost::filesystem::path &GetDataDir(bool fNetSpecific)
     } else {
         path = GetDefaultDataDir();
 		// If it doesn't exist look for old one which we can rename.
-		if (!boost::filesystem::is_directory(path)){
+		if (!fs::is_directory(path)){
 			fs::path oldpath = GetDefaultDataDir(true);
 			// Does the old path exist?
-			if (!boost::filesystem::is_directory(oldpath))
+			if (fs::is_directory(oldpath))
 				// Rename old path to new path.
-				boost::filesystem::rename(oldpath, path);
+				fs::rename(oldpath, path);
 		}
     }
     if (fNetSpecific && GetBoolArg("-testnet", false))
