@@ -179,7 +179,8 @@ bool AppInit(int argc, char* argv[])
         if (mapArgs.count("-?") || mapArgs.count("--help"))
         {
             // First part of help message is specific to bitcoind / RPC client
-            std::string strUsage = _("CharityCoin version") + " " + FormatFullVersion() + "\n\n" +
+            std::string strUsage = _("CharityCoin version") + " " + FormatFullVersion() + "\n" +
+				_("OpenSSL Version: " OPENSSL_VERSION_TEXT "\n\n") +
                 _("Usage:") + "\n" +
                   "  charitycoind [options]                     " + "\n" +
                   "  charitycoind [options] <command> [params]  " + _("Send command to -server or charitycoind") + "\n" +

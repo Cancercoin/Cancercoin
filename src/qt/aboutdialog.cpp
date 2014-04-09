@@ -3,6 +3,7 @@
 
 #include "clientmodel.h"
 #include "clientversion.h"
+#include <openssl/opensslv.h>
 
 // Copyright year (2009-this)
 // Todo: update this when changing our copyright comments in the source
@@ -19,7 +20,8 @@ AboutDialog::AboutDialog(QWidget *parent) :
 		tr("Copyright") + QString(" &copy; 2009-%1 ").arg(COPYRIGHT_YEAR) + tr("The Bitcoin developers") + QString("<br>")
 		+ tr("Copyright") + QString(" &copy; ") + tr("2011-%1 The Litecoin Developers").arg(ABOUTDIALOG_COPYRIGHT_YEAR) + QString("<br>")
 		+ tr("Copyright") + QString(" &copy; ") + tr("2014 Christiano Santos") + QString("<br>") + QString("<br>")
-		+ tr("Derived from Litecoin and developed by Matthew Mitchell")
+		+ tr("Derived from Litecoin and developed by Matthew Mitchell<br>")
+		+ tr("OpenSSL Version: " OPENSSL_VERSION_TEXT)
 	);
 }
 
