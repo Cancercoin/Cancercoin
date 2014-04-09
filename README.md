@@ -13,9 +13,9 @@ What is CharityCoin?
 CharityCoin is derived from litecoin and has:
  - 2.5 minute block targets
  - subsidy halves in 100k blocks (~5.8 months)
- - ~100 million total coins
+ - ~500 million total coins
  - 500 coins per block. 25 of them go to the charity address.
- - 6 blocks to retarget difficulty
+ - Kimoto Gravity Well
 
 For more information, as well as an immediately useable, binary version of
 the CharityCoin client sofware, see http://www.charitycoinfoundation.com.
